@@ -1,6 +1,9 @@
-﻿using Android.App;
+﻿
+using Android.App;
 using Android.Widget;
 using Android.OS;
+using Android.Views;
+
 
 namespace MerlinSSRSettingAndroid
 {
@@ -21,6 +24,21 @@ namespace MerlinSSRSettingAndroid
             Button button = FindViewById<Button>(Resource.Id.myButton);
 
             button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+
+            LinearLayout serverListView = FindViewById<LinearLayout>(Resource.Id.serverListView);
+            
+            LayoutInflater inflater = LayoutInflater.From(serverListView.Context);
+            var entityView = inflater.Inflate(Resource.Layout.ServerEntity, null);            
+            var entityServerName = entityView.FindViewById<TextView>(Resource.Id.textServerName);
+            entityServerName.Text = "XXXX1";
+
+            serverListView.AddView(entityView);
+            
+            entityView = inflater.Inflate(Resource.Layout.ServerEntity, null);
+            entityServerName = entityView.FindViewById<TextView>(Resource.Id.textServerName);
+            entityServerName.Text = "XXXX2";
+
+            serverListView.AddView(entityView);
         }
     }
 }
