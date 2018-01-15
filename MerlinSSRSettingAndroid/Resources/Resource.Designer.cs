@@ -44,9 +44,6 @@ namespace MerlinSSRSettingAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
-			
 			// aapt resource value: 0x7f050001
 			public const int serverListView = 2131034113;
 			
@@ -56,8 +53,8 @@ namespace MerlinSSRSettingAndroid
 			// aapt resource value: 0x7f050002
 			public const int textServerName = 2131034114;
 			
-			// aapt resource value: 0x7f050004
-			public const int textServerPort = 2131034116;
+			// aapt resource value: 0x7f050000
+			public const int updateButton = 2131034112;
 			
 			static Id()
 			{
