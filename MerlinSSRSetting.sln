@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerlinSSRSetting", "MerlinSSRSetting\MerlinSSRSetting.csproj", "{B237DDE8-27CD-4DBB-AA12-A7F4548B2ACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerlinSSRSettingAndroid", "MerlinSSRSettingAndroid\MerlinSSRSettingAndroid.csproj", "{C2FC0B62-2CE6-479C-9934-5C88303B6129}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B237DDE8-27CD-4DBB-AA12-A7F4548B2ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B237DDE8-27CD-4DBB-AA12-A7F4548B2ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B237DDE8-27CD-4DBB-AA12-A7F4548B2ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B237DDE8-27CD-4DBB-AA12-A7F4548B2ACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FC0B62-2CE6-479C-9934-5C88303B6129}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C88853B-8035-4F28-8A4D-0E19D117A6C4}
+	EndGlobalSection
+EndGlobal
