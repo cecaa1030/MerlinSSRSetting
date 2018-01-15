@@ -99,7 +99,40 @@ namespace MerlinSSRSetting
 
         private void updateSSRSubscribe(string serverList)
         {
+            List<string> urls = new List<string>();
+            Server.URL_Split(serverList, ref urls);
+            for (int i = urls.Count - 1; i >= 0; --i)
+            {
+                if (!urls[i].StartsWith("ssr"))
+                    urls.RemoveAt(i);
+            }
+            if (urls.Count > 0)
+            {
+                serverDataGridView.Rows.Clear();
 
+                foreach (string url in urls)
+                {
+                    Server server = new Server(url, null);
+
+                    serverDataGridView.Rows.Add(new object[]
+                    {
+                        server.remarks,
+                        server.server,
+                        server.server_port,
+                        server.password,
+                        server.method,
+                        server.obfs,
+                        server.obfsparam,
+                        server.protocol,
+                        server.protocolparam,
+                        server.group,
+
+                    });
+                }
+
+                serverDataGridView.AutoResizeColumns();
+                serverDataGridView.Sort(serverDataGridView.Columns[0], ListSortDirection.Ascending);
+            }
         }
 
         private void connectBtn_Click(object sender, EventArgs e)
@@ -158,6 +191,15 @@ namespace MerlinSSRSetting
             serverDataGridView.Columns.Add("protocol", "protocol");
             serverDataGridView.Columns.Add("protocolparam", "protocolparam");
             serverDataGridView.Columns.Add("group", "group");
+
+            try
+            {
+                var serverList = File.ReadAllText("./serverList");
+                updateSSRSubscribe(serverList);
+            }
+            catch (Exception exception)
+            {                
+            }            
         }
 
         private void serverDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -223,40 +265,7 @@ namespace MerlinSSRSetting
             var serverList = Base64.DecodeBase64(http.DownloadString(@"https://npsboost.com/link/0v097PgufaO1yXzJ?mu=1"));
             File.WriteAllText("./serverList", serverList);
 
-            List<string> urls = new List<string>();            
-            Server.URL_Split(serverList, ref urls);
-            for (int i = urls.Count - 1; i >= 0; --i)
-            {
-                if (!urls[i].StartsWith("ssr"))
-                    urls.RemoveAt(i);
-            }
-            if (urls.Count > 0)
-            {
-                serverDataGridView.Rows.Clear();
-
-                foreach (string url in urls)
-                {
-                    Server server = new Server(url, null);
-
-                    serverDataGridView.Rows.Add(new object[]
-                        {                                
-                            server.remarks,
-                            server.server,
-                            server.server_port,
-                            server.password,
-                            server.method,
-                            server.obfs,
-                            server.obfsparam,
-                            server.protocol,
-                            server.protocolparam,
-                            server.group,
-                        
-                        });   
-                }
-
-                serverDataGridView.AutoResizeColumns();                                
-                serverDataGridView.Sort(serverDataGridView.Columns[0], ListSortDirection.Ascending);             
-            }
+            updateSSRSubscribe(serverList);
         }
 
         private void serverLoadBtn_Click(object sender, EventArgs e)
