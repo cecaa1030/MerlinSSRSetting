@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 
@@ -21,6 +25,7 @@ namespace MerlinSSRSetting
 
         private void mainForm_Load(object sender, EventArgs e)
         {
+            serverDataGridView.Columns.Add("ping", "ping");
             serverDataGridView.Columns.Add("name", "name");
             serverDataGridView.Columns.Add("address", "address");
             serverDataGridView.Columns.Add("port", "port");
@@ -37,7 +42,7 @@ namespace MerlinSSRSetting
                 var serverList = File.ReadAllText("./serverList");
                 updateSSRSubscribe(serverList);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
         }
@@ -52,6 +57,16 @@ namespace MerlinSSRSetting
             configText.Text = merlinSsh.scpDownload("/jffs/scripts/ssrm.json");
 
             serverText.Text = merlinSsh.configRegex.Match(configText.Text).Groups["server"].Value;
+            
+            foreach (DataGridViewRow row in serverDataGridView.Rows)
+            {
+                if (String.Equals(row.Cells["address"].Value, serverText.Text))
+                {
+                    row.Selected = true;
+
+                    serverDataGridView.CurrentCell = row.Cells[1];
+                }
+            }
         }
 
         private void setConfig()
@@ -68,6 +83,41 @@ namespace MerlinSSRSetting
             consoleOutput.ScrollToCaret();
         }
 
+        private void pingServers()
+        {
+            var tasks = new List<Task<PingReply>>();
+
+            foreach (DataGridViewRow row in serverDataGridView.Rows)
+            {                
+                var ping = new Ping();
+                ping.PingCompleted += delegate (object sender, PingCompletedEventArgs e)
+                {
+                    try
+                    {
+                        if (e.Reply.Status == IPStatus.Success)
+                        {
+                            row.Cells["ping"].Value = e.Reply.RoundtripTime + "ms";
+                        }
+                        else
+                        {
+                            row.Cells["ping"].Value = "Unreachable";
+                        }
+                    }
+                    catch (Exception)
+                    {                        
+                    }
+                };
+
+                if (row.Cells["address"].Value != null)
+                {
+                    row.Cells["ping"].Value = "pinging...";
+                    tasks.Add(ping.SendPingAsync(row.Cells["address"].Value.ToString(), 1000));
+                }
+            }
+
+            //await Task.WhenAll(tasks);
+        }
+
         private void updateSSRSubscribe(string serverList)
         {
             List<string> urls = new List<string>();
@@ -79,14 +129,15 @@ namespace MerlinSSRSetting
             }
             if (urls.Count > 0)
             {
-                serverDataGridView.Rows.Clear();
+                serverDataGridView.Rows.Clear();               
 
                 foreach (string url in urls)
                 {
                     Server server = new Server(url, null);
-
+                                    
                     serverDataGridView.Rows.Add(new object[]
                     {
+                        "pinging...",
                         server.remarks,
                         server.server,
                         server.server_port,
@@ -98,11 +149,13 @@ namespace MerlinSSRSetting
                         server.protocolparam,
                         server.group,
 
-                    });
-                }
+                    });                                                           
+                }                                     
 
                 serverDataGridView.AutoResizeColumns();
-                serverDataGridView.Sort(serverDataGridView.Columns[0], ListSortDirection.Ascending);
+                serverDataGridView.Sort(serverDataGridView.Columns[1], ListSortDirection.Ascending);
+
+                pingServers();
             }
         }
 
@@ -110,6 +163,13 @@ namespace MerlinSSRSetting
         {                     
             merlinSsh.Connect();
 
+            getConfig();
+
+            updateConsole();
+        }
+
+        private void reloadConfigButton_Click(object sender, EventArgs e)
+        {
             getConfig();
 
             updateConsole();
@@ -202,10 +262,15 @@ namespace MerlinSSRSetting
             http.QueryString["rnd"] = Server.RandUInt32().ToString();
             http.Proxy = null;
 
-            var serverList = Base64.DecodeBase64(http.DownloadString(@"https://npsboost.com/link/0v097PgufaO1yXzJ?mu=1"));
+            var serverList = Base64.DecodeBase64(http.DownloadString(subscribeAddressText.Text));
             File.WriteAllText("./serverList", serverList);
 
             updateSSRSubscribe(serverList);
+        }
+
+        private void pingServersButton_Click(object sender, EventArgs e)
+        {
+            pingServers();
         }
 
         private void loadLocalConfigsButton_Click(object sender, EventArgs e)
@@ -240,5 +305,7 @@ namespace MerlinSSRSetting
             
             serverDataGridView.Sort(serverDataGridView.Columns[0], ListSortDirection.Ascending);
         }
+
+        
     }
 }

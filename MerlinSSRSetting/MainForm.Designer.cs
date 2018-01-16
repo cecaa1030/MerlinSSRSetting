@@ -41,6 +41,9 @@ namespace MerlinSSRSetting
             this.cmdExecButton = new System.Windows.Forms.Button();
             this.updateSubscribeButton = new System.Windows.Forms.Button();
             this.loadLocalConfigsButton = new System.Windows.Forms.Button();
+            this.reloadConfigButton = new System.Windows.Forms.Button();
+            this.pingServersButton = new System.Windows.Forms.Button();
+            this.subscribeAddressText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.serverDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +51,7 @@ namespace MerlinSSRSetting
             // 
             this.connectButton.Location = new System.Drawing.Point(12, 22);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(175, 23);
+            this.connectButton.Size = new System.Drawing.Size(160, 23);
             this.connectButton.TabIndex = 0;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -75,7 +78,7 @@ namespace MerlinSSRSetting
             // 
             this.changeServerButton.Location = new System.Drawing.Point(12, 97);
             this.changeServerButton.Name = "changeServerButton";
-            this.changeServerButton.Size = new System.Drawing.Size(175, 23);
+            this.changeServerButton.Size = new System.Drawing.Size(160, 23);
             this.changeServerButton.TabIndex = 3;
             this.changeServerButton.Text = "ChangeServer";
             this.changeServerButton.UseVisualStyleBackColor = true;
@@ -93,7 +96,7 @@ namespace MerlinSSRSetting
             // 
             this.changeConfigButton.Location = new System.Drawing.Point(12, 321);
             this.changeConfigButton.Name = "changeConfigButton";
-            this.changeConfigButton.Size = new System.Drawing.Size(175, 23);
+            this.changeConfigButton.Size = new System.Drawing.Size(160, 23);
             this.changeConfigButton.TabIndex = 5;
             this.changeConfigButton.Text = "ChangeConfig";
             this.changeConfigButton.UseVisualStyleBackColor = true;
@@ -132,27 +135,58 @@ namespace MerlinSSRSetting
             // 
             this.updateSubscribeButton.Location = new System.Drawing.Point(384, 22);
             this.updateSubscribeButton.Name = "updateSubscribeButton";
-            this.updateSubscribeButton.Size = new System.Drawing.Size(174, 23);
+            this.updateSubscribeButton.Size = new System.Drawing.Size(160, 23);
             this.updateSubscribeButton.TabIndex = 11;
-            this.updateSubscribeButton.Text = "Update Subscribe Configs";
+            this.updateSubscribeButton.Text = "Update Subscribe Servers";
             this.updateSubscribeButton.UseVisualStyleBackColor = true;
             this.updateSubscribeButton.Click += new System.EventHandler(this.updateSubscribeButton_Click);
             // 
             // loadLocalConfigsButton
             // 
-            this.loadLocalConfigsButton.Location = new System.Drawing.Point(600, 22);
+            this.loadLocalConfigsButton.Location = new System.Drawing.Point(908, 22);
             this.loadLocalConfigsButton.Name = "loadLocalConfigsButton";
-            this.loadLocalConfigsButton.Size = new System.Drawing.Size(173, 23);
+            this.loadLocalConfigsButton.Size = new System.Drawing.Size(160, 23);
             this.loadLocalConfigsButton.TabIndex = 12;
             this.loadLocalConfigsButton.Text = "Load Local Configs";
             this.loadLocalConfigsButton.UseVisualStyleBackColor = true;
             this.loadLocalConfigsButton.Click += new System.EventHandler(this.loadLocalConfigsButton_Click);
+            // 
+            // reloadConfigButton
+            // 
+            this.reloadConfigButton.Location = new System.Drawing.Point(205, 22);
+            this.reloadConfigButton.Name = "reloadConfigButton";
+            this.reloadConfigButton.Size = new System.Drawing.Size(160, 23);
+            this.reloadConfigButton.TabIndex = 13;
+            this.reloadConfigButton.Text = "Reload Config";
+            this.reloadConfigButton.UseVisualStyleBackColor = true;
+            this.reloadConfigButton.Click += new System.EventHandler(this.reloadConfigButton_Click);
+            // 
+            // pingServersButton
+            // 
+            this.pingServersButton.Location = new System.Drawing.Point(569, 22);
+            this.pingServersButton.Name = "pingServersButton";
+            this.pingServersButton.Size = new System.Drawing.Size(160, 23);
+            this.pingServersButton.TabIndex = 14;
+            this.pingServersButton.Text = "Ping Subscribe Servers";
+            this.pingServersButton.UseVisualStyleBackColor = true;
+            this.pingServersButton.Click += new System.EventHandler(this.pingServersButton_Click);
+            // 
+            // subscribeAddressText
+            // 
+            this.subscribeAddressText.Location = new System.Drawing.Point(12, 450);
+            this.subscribeAddressText.Name = "subscribeAddressText";
+            this.subscribeAddressText.Size = new System.Drawing.Size(351, 21);
+            this.subscribeAddressText.TabIndex = 15;
+            this.subscribeAddressText.Text = "https://npsboost.com/link/0v097PgufaO1yXzJ?mu=1";
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1080, 702);
+            this.Controls.Add(this.subscribeAddressText);
+            this.Controls.Add(this.pingServersButton);
+            this.Controls.Add(this.reloadConfigButton);
             this.Controls.Add(this.loadLocalConfigsButton);
             this.Controls.Add(this.updateSubscribeButton);
             this.Controls.Add(this.cmdExecButton);
@@ -187,6 +221,9 @@ namespace MerlinSSRSetting
         private System.Windows.Forms.Button cmdExecButton;
         private Button updateSubscribeButton;
         private Button loadLocalConfigsButton;
+        private Button reloadConfigButton;
+        private Button pingServersButton;
+        private TextBox subscribeAddressText;
     }
 }
 

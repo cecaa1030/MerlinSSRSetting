@@ -101,11 +101,9 @@ SSR Config
                 var serverList = File.ReadAllText(serverListFilePath);
                 updateSSRSubscribe(serverList);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
             }
-
         }
 
         private void updateServerListButtonClick(object sender, EventArgs args)
