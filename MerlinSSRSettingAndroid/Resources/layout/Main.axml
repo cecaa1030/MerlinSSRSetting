@@ -8,6 +8,17 @@
         android:text="Update Server List"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:text="SSR Config"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ssrConfigText" />
+    <Button
+        android:id="@+id/connectButton"
+        android:text="Connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -3,98 +3,69 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
-using Renci.SshNet;
-using Renci.SshNet.Common;
 
 namespace MerlinSSRSetting
 {
     public partial class mainForm : Form
-    {        
-        private ConnectionInfo connectionInfo = new ConnectionInfo("192.168.0.1", "zhxu",
-            new PasswordAuthenticationMethod("zhxu", "APMm6cVn"));
-
-        private SshClient sshClient;
-        private ShellStream shellStream;
-
-        private ScpClient scpClient;
-
-        private Regex configRegex = new Regex(@"(.*""server"":.*"")(?<server>.*)("",)");
+    {
+        private MerlinSSH merlinSsh;
 
         public mainForm()
         {
             InitializeComponent();
+
+            merlinSsh = new MerlinSSH();
         }
 
-        private void pn(string line)
+        private void mainForm_Load(object sender, EventArgs e)
         {
-            cmdOutput.Text += line.Replace("\n","\r\n");
-            cmdOutput.SelectionStart = cmdOutput.TextLength;
-            cmdOutput.ScrollToCaret();
-        }
+            serverDataGridView.Columns.Add("name", "name");
+            serverDataGridView.Columns.Add("address", "address");
+            serverDataGridView.Columns.Add("port", "port");
+            serverDataGridView.Columns.Add("password", "password");
+            serverDataGridView.Columns.Add("method", "method");
+            serverDataGridView.Columns.Add("obfs", "obfs");
+            serverDataGridView.Columns.Add("obfsparam", "obfsparam");
+            serverDataGridView.Columns.Add("protocol", "protocol");
+            serverDataGridView.Columns.Add("protocolparam", "protocolparam");
+            serverDataGridView.Columns.Add("group", "group");
 
-        private string exec(string cmdline)
-        {
-            shellStream.WriteLine(cmdline);
-            var rep = shellStream.Expect(new Regex(@"[$#]"));
-            pn(rep);
-            return rep;
-        }
-
-        private string scpDownload(string path)
-        {
-            pn("[download " + path + "]");
-
-            var stream = new MemoryStream();
-            scpClient.Download(path, stream);
-
-            stream.Seek(0, SeekOrigin.Begin);
-            var streamReader = new StreamReader(stream);
-            return streamReader.ReadToEnd();
-        }
-
-        private void scpUpload(string path, string content)
-        {
-            pn("[upload " + path + "]");
-
-            var stream = new MemoryStream();
-            var streamWriter = new StreamWriter(stream);
-            streamWriter.Write(content);
-            streamWriter.Flush();
-            stream.Seek(0, SeekOrigin.Begin);
-
-            scpClient.Upload(stream, path);
-        }
-
-        private void restartSSR()
-        {
-            var plist = exec("ps");
-            var plistReg = new Regex(@"(\d+)\s*zhxu.*/opt/bin/ss-[local|redir].*\n");
-            var matches = plistReg.Matches(plist);
-
-            foreach (Match m in matches)
+            try
             {
-                exec("kill " + m.Groups[1].Value);
+                var serverList = File.ReadAllText("./serverList");
+                updateSSRSubscribe(serverList);
             }
+            catch (Exception exception)
+            {
+            }
+        }
 
-            exec("nohup /opt/bin/ss-local -c /jffs/scripts/ssrm.json -l 7913 -L 203.80.96.10:53 -u >/dev/null 2>&1 &");
-            exec("nohup /opt/bin/ss-redir -c /jffs/scripts/ssrm.json -b 0.0.0.0 >/dev/null 2>&1 &");
+        private void mainForm_Closing(object sender, EventArgs e)
+        {
+            merlinSsh.Disconnect();
         }
 
         private void getConfig()
         {
-            configText.Text = scpDownload("/jffs/scripts/ssrm.json");
+            configText.Text = merlinSsh.scpDownload("/jffs/scripts/ssrm.json");
 
-            serverText.Text = configRegex.Match(configText.Text).Groups["server"].Value;
+            serverText.Text = merlinSsh.configRegex.Match(configText.Text).Groups["server"].Value;
         }
 
         private void setConfig()
         {
-            serverText.Text = configRegex.Match(configText.Text).Groups["server"].Value;
+            serverText.Text = merlinSsh.configRegex.Match(configText.Text).Groups["server"].Value;
 
-            scpUpload("/jffs/scripts/ssrm.json", configText.Text);
+            merlinSsh.scpUpload("/jffs/scripts/ssrm.json", configText.Text);
+        }
+
+        private void updateConsole()
+        {
+            consoleOutput.Text = merlinSsh.ConsoleText;
+            consoleOutput.SelectionStart = consoleOutput.TextLength;
+            consoleOutput.ScrollToCaret();
         }
 
         private void updateSSRSubscribe(string serverList)
@@ -135,76 +106,38 @@ namespace MerlinSSRSetting
             }
         }
 
-        private void connectBtn_Click(object sender, EventArgs e)
+        private void connectButton_Click(object sender, EventArgs e)
         {                     
-            sshClient = new SshClient(connectionInfo);
-            sshClient.Connect();                              
-                                
-            var termkvp = new Dictionary<TerminalModes, uint>();
-            termkvp.Add(TerminalModes.ECHO, 53);
-            shellStream = sshClient.CreateShellStream("xterm", 256, 128, 256, 128, 1024, termkvp);
-
-            string rep = shellStream.Expect(new Regex(@"[$#]"));
-            pn(rep);
-
-            exec("ps");            
-
-            scpClient = new ScpClient(connectionInfo);
-            scpClient.Connect();
+            merlinSsh.Connect();
 
             getConfig();
+
+            updateConsole();
         }
 
-        private void changeBtn_Click(object sender, EventArgs e)
+        private void changeServerButton_Click(object sender, EventArgs e)
         {
-            configText.Text = configRegex.Replace(configText.Text, "$1" + serverText.Text + "$2");
+            configText.Text = merlinSsh.configRegex.Replace(configText.Text, "$1" + serverText.Text + "$2");
 
             setConfig();
 
-            restartSSR();
-        }
+            merlinSsh.restartSSR();
 
-        private void mainForm_Closing(object sender, EventArgs e)
-        {
-            if (sshClient != null && sshClient.IsConnected)
-                sshClient.Disconnect();
-            if (scpClient != null && scpClient.IsConnected)
-                scpClient.Disconnect();
-        }
+            updateConsole();
+        }        
 
-        private void applyConfigBtn_Click(object sender, EventArgs e)
+        private void changeConfigButton_Click(object sender, EventArgs e)
         {
             setConfig();
 
-            restartSSR();
-        }
+            merlinSsh.restartSSR();
 
-        private void mainForm_Load(object sender, EventArgs e)
-        {
-            serverDataGridView.Columns.Add("name", "name");
-            serverDataGridView.Columns.Add("address", "address");
-            serverDataGridView.Columns.Add("port", "port");
-            serverDataGridView.Columns.Add("password", "password");
-            serverDataGridView.Columns.Add("method", "method");
-            serverDataGridView.Columns.Add("obfs", "obfs");
-            serverDataGridView.Columns.Add("obfsparam", "obfsparam");            
-            serverDataGridView.Columns.Add("protocol", "protocol");
-            serverDataGridView.Columns.Add("protocolparam", "protocolparam");
-            serverDataGridView.Columns.Add("group", "group");
-
-            try
-            {
-                var serverList = File.ReadAllText("./serverList");
-                updateSSRSubscribe(serverList);
-            }
-            catch (Exception exception)
-            {                
-            }            
-        }
+            updateConsole();
+        }        
 
         private void serverDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (sshClient != null && sshClient.IsConnected)
+            if (merlinSsh.IsConnected())
             {
                 var row = serverDataGridView.Rows[e.RowIndex].Cells;
 
@@ -222,7 +155,8 @@ namespace MerlinSSRSetting
     ""protocol"" : ""{6}"",
     ""protocol_param"" : ""{7}"",
 }}
-                ",  row["address"].Value.ToString(),
+",  
+                    row["address"].Value.ToString(),
                     row["port"].Value.ToString(),
                     row["password"].Value.ToString(),
                     row["method"].Value.ToString(),
@@ -234,7 +168,9 @@ namespace MerlinSSRSetting
 
                 setConfig();
 
-                restartSSR();
+                merlinSsh.restartSSR();
+
+                updateConsole();
             }
         }
 
@@ -242,20 +178,24 @@ namespace MerlinSSRSetting
         {
             if (e.KeyChar == Convert.ToChar(13))
             {
-                exec(cmdTextBox.Text);
+                merlinSsh.exec(cmdTextBox.Text);                
                 cmdTextBox.Text = "";
+
+                updateConsole();
 
                 e.Handled = true;
             }
         }
 
-        private void cmdExecBtn_Click(object sender, EventArgs e)
+        private void cmdExecButton_Click(object sender, EventArgs e)
         {
-            exec(cmdTextBox.Text);
+            merlinSsh.exec(cmdTextBox.Text);
             cmdTextBox.Text = "";
+
+            updateConsole();
         }
        
-        private void updateBtn_Click(object sender, EventArgs e)
+        private void updateSubscribeButton_Click(object sender, EventArgs e)
         {
             WebClient http = new WebClient();
             http.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.3319.102 Safari/537.36");
@@ -268,7 +208,7 @@ namespace MerlinSSRSetting
             updateSSRSubscribe(serverList);
         }
 
-        private void serverLoadBtn_Click(object sender, EventArgs e)
+        private void loadLocalConfigsButton_Click(object sender, EventArgs e)
         {
             var configString = File.ReadAllText("./gui-config.json");
 

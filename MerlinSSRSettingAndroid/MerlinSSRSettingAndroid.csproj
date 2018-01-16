@@ -67,6 +67,9 @@
     <Compile Include="..\MerlinSSRSetting\Base64.cs">
       <Link>Base64.cs</Link>
     </Compile>
+    <Compile Include="..\MerlinSSRSetting\MerlinSSH.cs">
+      <Link>MerlinSSH.cs</Link>
+    </Compile>
     <Compile Include="..\MerlinSSRSetting\Server.cs">
       <Link>Server.cs</Link>
     </Compile>

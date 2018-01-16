@@ -30,39 +30,39 @@ namespace MerlinSSRSetting
         /// </summary>
         private void InitializeComponent()
         {
-            this.connectBtn = new System.Windows.Forms.Button();
-            this.cmdOutput = new System.Windows.Forms.TextBox();
+            this.connectButton = new System.Windows.Forms.Button();
+            this.consoleOutput = new System.Windows.Forms.TextBox();
             this.serverText = new System.Windows.Forms.TextBox();
-            this.changeBtn = new System.Windows.Forms.Button();
+            this.changeServerButton = new System.Windows.Forms.Button();
             this.configText = new System.Windows.Forms.TextBox();
-            this.applyConfigBtn = new System.Windows.Forms.Button();
+            this.changeConfigButton = new System.Windows.Forms.Button();
             this.serverDataGridView = new System.Windows.Forms.DataGridView();
             this.cmdTextBox = new System.Windows.Forms.TextBox();
-            this.cmdExecBtn = new System.Windows.Forms.Button();
-            this.updateBtn = new System.Windows.Forms.Button();
-            this.serverLoadBtn = new System.Windows.Forms.Button();
+            this.cmdExecButton = new System.Windows.Forms.Button();
+            this.updateSubscribeButton = new System.Windows.Forms.Button();
+            this.loadLocalConfigsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.serverDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // connectBtn
+            // connectButton
             // 
-            this.connectBtn.Location = new System.Drawing.Point(12, 22);
-            this.connectBtn.Name = "connectBtn";
-            this.connectBtn.Size = new System.Drawing.Size(175, 23);
-            this.connectBtn.TabIndex = 0;
-            this.connectBtn.Text = "Connect";
-            this.connectBtn.UseVisualStyleBackColor = true;
-            this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
+            this.connectButton.Location = new System.Drawing.Point(12, 22);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(175, 23);
+            this.connectButton.TabIndex = 0;
+            this.connectButton.Text = "Connect";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
-            // cmdOutput
+            // consoleOutput
             // 
-            this.cmdOutput.Location = new System.Drawing.Point(12, 477);
-            this.cmdOutput.Multiline = true;
-            this.cmdOutput.Name = "cmdOutput";
-            this.cmdOutput.ReadOnly = true;
-            this.cmdOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cmdOutput.Size = new System.Drawing.Size(1056, 185);
-            this.cmdOutput.TabIndex = 1;
+            this.consoleOutput.Location = new System.Drawing.Point(12, 477);
+            this.consoleOutput.Multiline = true;
+            this.consoleOutput.Name = "consoleOutput";
+            this.consoleOutput.ReadOnly = true;
+            this.consoleOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.consoleOutput.Size = new System.Drawing.Size(1056, 185);
+            this.consoleOutput.TabIndex = 1;
             // 
             // serverText
             // 
@@ -71,15 +71,15 @@ namespace MerlinSSRSetting
             this.serverText.Size = new System.Drawing.Size(352, 21);
             this.serverText.TabIndex = 2;
             // 
-            // changeBtn
+            // changeServerButton
             // 
-            this.changeBtn.Location = new System.Drawing.Point(12, 97);
-            this.changeBtn.Name = "changeBtn";
-            this.changeBtn.Size = new System.Drawing.Size(175, 23);
-            this.changeBtn.TabIndex = 3;
-            this.changeBtn.Text = "ChangeServer";
-            this.changeBtn.UseVisualStyleBackColor = true;
-            this.changeBtn.Click += new System.EventHandler(this.changeBtn_Click);
+            this.changeServerButton.Location = new System.Drawing.Point(12, 97);
+            this.changeServerButton.Name = "changeServerButton";
+            this.changeServerButton.Size = new System.Drawing.Size(175, 23);
+            this.changeServerButton.TabIndex = 3;
+            this.changeServerButton.Text = "ChangeServer";
+            this.changeServerButton.UseVisualStyleBackColor = true;
+            this.changeServerButton.Click += new System.EventHandler(this.changeServerButton_Click);
             // 
             // configText
             // 
@@ -89,15 +89,15 @@ namespace MerlinSSRSetting
             this.configText.Size = new System.Drawing.Size(352, 165);
             this.configText.TabIndex = 4;
             // 
-            // applyConfigBtn
+            // changeConfigButton
             // 
-            this.applyConfigBtn.Location = new System.Drawing.Point(12, 321);
-            this.applyConfigBtn.Name = "applyConfigBtn";
-            this.applyConfigBtn.Size = new System.Drawing.Size(175, 23);
-            this.applyConfigBtn.TabIndex = 5;
-            this.applyConfigBtn.Text = "ChangeConfig";
-            this.applyConfigBtn.UseVisualStyleBackColor = true;
-            this.applyConfigBtn.Click += new System.EventHandler(this.applyConfigBtn_Click);
+            this.changeConfigButton.Location = new System.Drawing.Point(12, 321);
+            this.changeConfigButton.Name = "changeConfigButton";
+            this.changeConfigButton.Size = new System.Drawing.Size(175, 23);
+            this.changeConfigButton.TabIndex = 5;
+            this.changeConfigButton.Text = "ChangeConfig";
+            this.changeConfigButton.UseVisualStyleBackColor = true;
+            this.changeConfigButton.Click += new System.EventHandler(this.changeConfigButton_Click);
             // 
             // serverDataGridView
             // 
@@ -118,52 +118,52 @@ namespace MerlinSSRSetting
             this.cmdTextBox.TabIndex = 9;
             this.cmdTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmdTextBox_keyPress);
             // 
-            // cmdExecBtn
+            // cmdExecButton
             // 
-            this.cmdExecBtn.Location = new System.Drawing.Point(940, 667);
-            this.cmdExecBtn.Name = "cmdExecBtn";
-            this.cmdExecBtn.Size = new System.Drawing.Size(128, 23);
-            this.cmdExecBtn.TabIndex = 10;
-            this.cmdExecBtn.Text = "Exec";
-            this.cmdExecBtn.UseVisualStyleBackColor = true;
-            this.cmdExecBtn.Click += new System.EventHandler(this.cmdExecBtn_Click);
+            this.cmdExecButton.Location = new System.Drawing.Point(940, 667);
+            this.cmdExecButton.Name = "cmdExecButton";
+            this.cmdExecButton.Size = new System.Drawing.Size(128, 23);
+            this.cmdExecButton.TabIndex = 10;
+            this.cmdExecButton.Text = "Exec";
+            this.cmdExecButton.UseVisualStyleBackColor = true;
+            this.cmdExecButton.Click += new System.EventHandler(this.cmdExecButton_Click);
             // 
-            // updateBtn
+            // updateSubscribeButton
             // 
-            this.updateBtn.Location = new System.Drawing.Point(384, 22);
-            this.updateBtn.Name = "updateBtn";
-            this.updateBtn.Size = new System.Drawing.Size(174, 23);
-            this.updateBtn.TabIndex = 11;
-            this.updateBtn.Text = "Update Configs";
-            this.updateBtn.UseVisualStyleBackColor = true;
-            this.updateBtn.Click += new System.EventHandler(this.updateBtn_Click);
+            this.updateSubscribeButton.Location = new System.Drawing.Point(384, 22);
+            this.updateSubscribeButton.Name = "updateSubscribeButton";
+            this.updateSubscribeButton.Size = new System.Drawing.Size(174, 23);
+            this.updateSubscribeButton.TabIndex = 11;
+            this.updateSubscribeButton.Text = "Update Subscribe Configs";
+            this.updateSubscribeButton.UseVisualStyleBackColor = true;
+            this.updateSubscribeButton.Click += new System.EventHandler(this.updateSubscribeButton_Click);
             // 
-            // serverLoadBtn
+            // loadLocalConfigsButton
             // 
-            this.serverLoadBtn.Location = new System.Drawing.Point(600, 22);
-            this.serverLoadBtn.Name = "serverLoadBtn";
-            this.serverLoadBtn.Size = new System.Drawing.Size(173, 23);
-            this.serverLoadBtn.TabIndex = 12;
-            this.serverLoadBtn.Text = "Load Configs";
-            this.serverLoadBtn.UseVisualStyleBackColor = true;
-            this.serverLoadBtn.Click += new System.EventHandler(this.serverLoadBtn_Click);
+            this.loadLocalConfigsButton.Location = new System.Drawing.Point(600, 22);
+            this.loadLocalConfigsButton.Name = "loadLocalConfigsButton";
+            this.loadLocalConfigsButton.Size = new System.Drawing.Size(173, 23);
+            this.loadLocalConfigsButton.TabIndex = 12;
+            this.loadLocalConfigsButton.Text = "Load Local Configs";
+            this.loadLocalConfigsButton.UseVisualStyleBackColor = true;
+            this.loadLocalConfigsButton.Click += new System.EventHandler(this.loadLocalConfigsButton_Click);
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1080, 702);
-            this.Controls.Add(this.serverLoadBtn);
-            this.Controls.Add(this.updateBtn);
-            this.Controls.Add(this.cmdExecBtn);
+            this.Controls.Add(this.loadLocalConfigsButton);
+            this.Controls.Add(this.updateSubscribeButton);
+            this.Controls.Add(this.cmdExecButton);
             this.Controls.Add(this.cmdTextBox);
             this.Controls.Add(this.serverDataGridView);
-            this.Controls.Add(this.applyConfigBtn);
+            this.Controls.Add(this.changeConfigButton);
             this.Controls.Add(this.configText);
-            this.Controls.Add(this.changeBtn);
+            this.Controls.Add(this.changeServerButton);
             this.Controls.Add(this.serverText);
-            this.Controls.Add(this.cmdOutput);
-            this.Controls.Add(this.connectBtn);
+            this.Controls.Add(this.consoleOutput);
+            this.Controls.Add(this.connectButton);
             this.Name = "mainForm";
             this.Text = "MerlinSSRChanger";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.mainForm_Closing);
@@ -176,17 +176,17 @@ namespace MerlinSSRSetting
 
         #endregion
 
-        private System.Windows.Forms.Button connectBtn;
-        private System.Windows.Forms.TextBox cmdOutput;
+        private System.Windows.Forms.Button connectButton;
+        private System.Windows.Forms.TextBox consoleOutput;
         private System.Windows.Forms.TextBox serverText;
-        private System.Windows.Forms.Button changeBtn;
+        private System.Windows.Forms.Button changeServerButton;
         private System.Windows.Forms.TextBox configText;
-        private System.Windows.Forms.Button applyConfigBtn;
+        private System.Windows.Forms.Button changeConfigButton;
         private System.Windows.Forms.DataGridView serverDataGridView;
         private System.Windows.Forms.TextBox cmdTextBox;
-        private System.Windows.Forms.Button cmdExecBtn;
-        private Button updateBtn;
-        private Button serverLoadBtn;
+        private System.Windows.Forms.Button cmdExecButton;
+        private Button updateSubscribeButton;
+        private Button loadLocalConfigsButton;
     }
 }
 
